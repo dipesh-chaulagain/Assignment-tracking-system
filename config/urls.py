@@ -14,23 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import include, path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-
-    path("admin/", admin.site.urls),
-    #This is for assignments app
-    path("api/assignments/", include("assignments.urls")),
+path("admin/", admin.site.urls),
+path("api/assignments/", include("assignments.urls")),
 
 
 # Swagger UI Patterns
 path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
+path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"),
+    name="swagger-ui",
 ),
 
+# The simple HTML web page with the add-assignment form
+path("", include("assignments.web_urls")),
 ]
